@@ -1,5 +1,8 @@
 Revision history for Perl extension Chemistry::File::PDB.
 
+0.21  
+        - Changed parse_file to parse_string
+
 0.20  Fri Jul 02 2004
         - Added name_is, write_string
         - Changed "sequence_number" to "serial_number" for atoms to comply

@@ -85,22 +85,19 @@ atomic symbols.
 
 Chemistry::Mol->register_format(pdb => __PACKAGE__);
 
-sub parse_file {
-    my $class = shift;
-    my $fname = shift;
-    my %options = @_;
+sub parse_string {
+    my ($class, $s, %options) = @_;
     my @mols; 
     my ($n_atom);
     my $n_res = 0;
     my $domain;
 
-    open F, $fname or croak "Could not open file $fname";
-
     my $mol_class = $options{mol_class} || "Chemistry::MacroMol";
     my $mol = $mol_class->new;
     my $is_macro = $mol->isa('Chemistry::MacroMol');
     $domain = $mol unless $is_macro;
-    while (<F>) {
+
+    for (split /\n/, $s) {
 	if (/^TER/) {
 	    #$mol->{name} = $name;  # create multiple molecules
 	    #push @mols, $mol;
@@ -134,7 +131,6 @@ sub parse_file {
             $a->attr('pdb/serial_number', $atom_n*1);
 	}
     }
-    close F;
 
     return $mol;
 }
