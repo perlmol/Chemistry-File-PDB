@@ -2,6 +2,7 @@ package Chemistry::File::PDB;
 
 $VERSION = '0.10';
 
+use base "Chemistry::File";
 use Chemistry::MacroMol;
 use Chemistry::Domain;
 use Carp;
