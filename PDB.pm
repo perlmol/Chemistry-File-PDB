@@ -16,7 +16,7 @@ Chemistry::File::PDB
 
     use Chemistry::File::PDB 'pdb_read';
 
-    my $mol = pdb_read("myfile.pdb");
+    my $macro_mol = pdb_read("myfile.pdb");
 
 =cut
 
@@ -35,27 +35,39 @@ require Exporter;
 
 =head1 DESCRIPTION
 
-PDB file reader. Currently only uses ATOM records.
+This module reads PDB files. The PDB file format is commonly used to describe
+proteins, particularly those stored in the Protein Data Bank
+(L<http://www.rcsb.org/pdb/>). The current version of this module only reads
+the ATOM records, ignoring everything else.
 
 This module automatically registers the 'pdb' format with Chemistry::Mol,
 so that PDB files may be identified and read by Chemistry::Mol::read_mol().
 
-=head1 FUNCTIONS
-
-=over 4
-
-=item pdb_read($fname)
-
-Returns a Chemistry::MacroMol object from the specified PDB file.
+The PDB reader returns a Chemistry::MacroMol object, by default, but the
+user is free to give any object to the pdb_read subroutine, as long as it
+implements the same interface as Chemistry::Mol.
 
 =cut
 
 Chemistry::Mol::register_type("pdb",  read => \&pdb_read,
     is => \&is_pdb, );
 
+=head1 FUNCTIONS
+
+=over 4
+
+=item $my_mol = pdb_read($fname, option => value...)
+
+Returns a Chemistry::MacroMol object (by default) from the specified PDB file.
+The only option so far is mol => $my_mol, which would use a previously created
+object instead of creating a new MacroMol object. The object should be a 
+Chemistry::Mol object or a derived class.
+
+=cut
+
 sub pdb_read {
     my $fname = shift;
-    my ($mol) = @_; # a molecule
+    my %options = @_; # a molecule
     my @mols; 
     my ($n_mol, $n_atom);
     my $n_res = 0;
@@ -63,7 +75,8 @@ sub pdb_read {
 
     open F, $fname or croak "Could not open file $fname";
 
-    $mol ||= Chemistry::MacroMol->new(id => "mol". ++$n_mol);
+    $mol = $options{mol} || Chemistry::MacroMol->new(id => "mol". ++$n_mol);
+    my $is_macro = $mol->isa('Chemistry::MacroMol');
     while (<F>) {
 	if (/^TER/) {
 #	    $mol->{name} = $name;
@@ -99,7 +112,9 @@ sub pdb_read {
 
 =item is_pdb($fname)
 
-Returns true if the specified file is a PDB file.
+Returns true if the specified file is a PDB file. The test is not incredibly
+smart; it assumes that a file is a PDB if the name ends with .pdb or if it has
+any line beginning with "ATOM  ".
 
 =cut
 
@@ -111,7 +126,7 @@ sub is_pdb {
     open F, $fname or croak "Could not open file $fname";
     
     while (<F>){
-	if (/^ATOM/) {
+	if (/^ATOM  /) {
 	    close F;
 	    return 1;
 	}
@@ -125,7 +140,10 @@ sub is_pdb {
 
 =head1 SEE ALSO
 
-Chemistry::MacroMol
+L<Chemistry::MacroMol>, L<Chemistry::Mol>
+
+The PDB format description at 
+L<http://www.rcsb.org/pdb/docs/format/pdbguide2.2/guide2.2_frame.html>
 
 =head1 AUTHOR
 
