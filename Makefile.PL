@@ -5,8 +5,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'		=> 'Chemistry::File::PDB',
     'VERSION_FROM'	=> 'PDB.pm', # finds $VERSION
-    'PREREQ_PM'		=> {}, # e.g., Module::Name => 1.1
-    ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM => 'PDB.pm', # retrieve abstract from module
-       AUTHOR     => 'Ivan Tubert <ivan@chem.yale.edu>') : ()),
+    'PREREQ_PM'		=> {
+        'Chemistry::MacroMol' => 0.05,
+    }, # e.g., Module::Name => 1.1
 );
