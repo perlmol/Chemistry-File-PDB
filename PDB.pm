@@ -75,7 +75,7 @@ sub pdb_read {
 
     open F, $fname or croak "Could not open file $fname";
 
-    $mol = $options{mol} || Chemistry::MacroMol->new(id => "mol". ++$n_mol);
+    my $mol = $options{mol} || Chemistry::MacroMol->new(id => "mol". ++$n_mol);
     my $is_macro = $mol->isa('Chemistry::MacroMol');
     while (<F>) {
 	if (/^TER/) {
