@@ -16,9 +16,9 @@ Chemistry::File::PDB
 
 =head1 SYNOPSIS
 
-    use Chemistry::File::PDB 'pdb_read';
+    use Chemistry::File::PDB;
 
-    my $macro_mol = pdb_read("myfile.pdb");
+    my $macro_mol = Chemistry::MacroMol::read->("myfile.pdb");
 
 =cut
 
