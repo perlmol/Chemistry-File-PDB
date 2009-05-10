@@ -1,6 +1,6 @@
 package Chemistry::File::PDB;
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 # $Id$
 
 use base qw(Chemistry::File);
@@ -257,7 +257,7 @@ sub write_string {
 
 =head1 VERSION
 
-0.22
+0.23
 
 =head1 SEE ALSO
 

@@ -1,5 +1,8 @@
 Revision history for Perl extension Chemistry::File::PDB.
 
+0.23  Sun May 10 2009
+        - Fix broken 0.22 tarball.
+
 0.22  Sun May 10 2009
         - Add unique ID to atom names when generating from a $mol object.
         - Also treat END as a molecule separator in multi-molecule files.

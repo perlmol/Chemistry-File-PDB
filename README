@@ -1,4 +1,4 @@
-Chemistry/File/PDB version 0.22
+Chemistry/File/PDB version 0.23
 ===============================
 
 This module reads and writes PDB files. The PDB file format is commonly used to
